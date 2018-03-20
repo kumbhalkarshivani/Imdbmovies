@@ -9,7 +9,7 @@ public class dbMethods {
     
 		public void createNewDatabase(String fileName) {
 			 
-	         String url = "jdbc:sqlite:C:/sqlite/" + fileName;
+	         String url = "jdbc:sqlite:C://IMDBMovies/sqlite/" + fileName;
 	 
 	        try (Connection conn = DriverManager.getConnection(url)) {
 	            if (conn != null) {
@@ -29,11 +29,11 @@ public class dbMethods {
 	     */
 	    public void createNewTable() {
 	        // SQLite connection string
-	        String url = "jdbc:sqlite:C://sqlite/tests.db";
+	        String url = "jdbc:sqlite:C://IMDBMovies/sqlite/test.db";
 	        
 	        // SQL statement for creating a new table
 	        String sql = "CREATE TABLE IF NOT EXISTS imdbmovies (\n"
-	                + "	id text,\n"
+	                + "	id text PRIMARY KEY,\n"
 	                + "	moviename text NOT NULL,\n"
 	                + "	year text NOT NULL,\n"
 	                + "	rating text\n"
@@ -43,6 +43,7 @@ public class dbMethods {
 	                Statement stmt = conn.createStatement()) {
 	            // create a new table
 	            stmt.execute(sql);
+	            System.out.println("imdbmovies table has been created");
 	        } catch (SQLException e) {
 	            System.out.println(e.getMessage());
 	        }
@@ -53,7 +54,7 @@ public class dbMethods {
 	     */
 	    public void insert(String id, String moviename,String year,String rating) {
 	        String sql = "INSERT INTO imdbmovies(id,moviename,year,rating) VALUES(?,?,?,?)";
-	        String url = "jdbc:sqlite:C://sqlite/tests.db";
+	        String url = "jdbc:sqlite:C://IMDBMovies/sqlite/test.db";
 	       
 	        //System.out.println("INSERT INTO imdbmovies(id,moviename,year,rating) VALUES(\""+id+"\",\""+moviename+"\",\""+year+"\",\""+rating+"\")");
 
@@ -73,9 +74,9 @@ public class dbMethods {
 	    /**
 	     * select all rows in the warehouses table
 	     */
-	    public void selectAll(){
-	        String sql = "SELECT * FROM imdbmovies";
-	        String url = "jdbc:sqlite:C://sqlite/tests.db";
+	    public void selectAll(String sql){
+	    	
+	        String url = "jdbc:sqlite:C://IMDBMovies/sqlite/test.db";
 
 	        try (Connection conn = DriverManager.getConnection(url);
 	             Statement stmt  = conn.createStatement();
@@ -98,7 +99,7 @@ public class dbMethods {
 	    
 	    public void delete() {
 	        String sql = "DELETE FROM imdbmovies";
-	        String url = "jdbc:sqlite:C://sqlite/tests.db";
+	        String url = "jdbc:sqlite:C://IMDBMovies/sqlite/test.db";
 
 	        try (Connection conn = DriverManager.getConnection(url);
 	                Statement stmt = conn.createStatement()) {
@@ -108,20 +109,16 @@ public class dbMethods {
 	        }
 	    }
 	    //to run custom query
-	    public void query(String sql){
-	        String url = "jdbc:sqlite:C://sqlite/tests.db";
+	    public String query(String sql) throws SQLException{
+	    	String url = "jdbc:sqlite:C://IMDBMovies/sqlite/test.db";
 
-	        try (Connection conn = DriverManager.getConnection(url);
-	             Statement stmt  = conn.createStatement();
-	             ResultSet rs    = stmt.executeQuery(sql)){
-	            
-	            // loop through the result set
-	            while (rs.next()) {
-	                System.out.println(rs.getString("count(*)"));
-	            }
-	        } catch (SQLException e) {
-	            System.out.println(e.getMessage());
-	        }
+	        Connection conn = DriverManager.getConnection(url);
+	        Statement stmt  = conn.createStatement();
+	        ResultSet rs    = stmt.executeQuery(sql);
+	        return (rs.getString("count"));
+
+	       
+	        
 	    }
 	      
 }

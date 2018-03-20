@@ -10,7 +10,7 @@ import com.pack.common.pageObjects.dbMethods;
 
 public class testbasesetup extends dbMethods{
 	public WebDriver driver;
-	static String driverPath = "D:\\Shiv\\Selenium\\Selenium jars\\driverpath\\";
+	static String driverPath = "C:\\IMDBMovies\\driverpath\\";
 
 	public WebDriver getDriver() {
 		return driver;
